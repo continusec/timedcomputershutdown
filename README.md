@@ -48,9 +48,10 @@ I can use Tailscale on my phone to access the Concourse UI and easily trigger th
 
 ```bash
 # install
-go install github.com/continusec/timedcomputershutdown/bin/timedcomputershutdown
+go install github.com/continusec/timedcomputershutdown/bin/{timedcomputershutdown,shutdownnow}
 
-# change owner to root, and set uid so that it can shutdown
-sudo chown root $HOME/go/bin/timedcomputershutdown
-sudo chmod +s $HOME/go/bin/timedcomputershutdown
+# Make the second binary (shutdownnow) owned by root, and setuid - that way the whole thing doesn't need to be root
+# and we can still "killall timecomputer shutdown" as non-root.
+sudo chown root $HOME/go/bin/shutdownnow
+sudo chmod +s $HOME/go/bin/shutdownnow
 ```

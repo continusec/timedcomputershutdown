@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"path"
 	"syscall"
 	"time"
 )
@@ -67,7 +68,7 @@ func main() {
 			ttl := shutdownTime.Sub(t)
 			if ttl <= 0 {
 				makeAnnouncement("Shutting down")
-				err := exec.Command("/sbin/shutdown", "-h", "now").Run()
+				err := exec.Command(path.Join(path.Dir(os.Args[0])), "shutdownnow").Run()
 				if err != nil {
 					log.Println(err)
 					makeAnnouncement("Error shutting down")
