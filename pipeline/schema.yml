@@ -1,0 +1,10 @@
+#@data/values-schema
+---
+images:
+  ssh: ""
+computers:
+- name: ""
+  ip: ""
+  username: ""
+intervals:
+- duration: ""

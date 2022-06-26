@@ -1,0 +1,48 @@
+#@ load("@ytt:data", "data")
+---
+resources:
+
+- name: basic-tools
+  type: registry-image
+  check_every: never
+  icon: docker
+  source:
+    repository: #@ data.values.images.ssh
+    tag: latest
+
+jobs:
+#@ for computer in data.values.computers:
+#@   for interval in data.values.intervals:
+- name: #@ "turn-off-" + computer.name + "-in-" + interval.duration
+  serial_groups:
+  - #@ computer.name
+  plan:
+  - get: basic-tools
+  - task: turn-it-off
+    timeout: 2h
+    image: basic-tools
+    config:
+      platform: linux
+      params:
+        USERNAME: #@ computer.username
+        IP: #@ computer.ip
+        DURATION: #@ interval.duration
+      run:
+        path: bash
+        args:
+        - "-c"
+        - |
+          set -euo pipefail
+
+          onterm() { 
+            echo "Aborting."
+            ssh -o "StrictHostKeyChecking=no" "${USERNAME}@${IP}" killall timedcomputershutdown
+          }
+
+          trap onterm SIGTERM
+
+          ssh -o "StrictHostKeyChecking=no" "${USERNAME}@${IP}" "/Users/${USERNAME}/go/bin/timedcomputershutdown" "${DURATION}" &
+          child=$! 
+          wait "$child"
+#@   end
+#@ end
