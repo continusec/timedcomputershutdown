@@ -8,7 +8,7 @@ e.g.
 timedcomputershutdown 20m
 ```
 
-should results in the following announcements:
+will result in the following announcements:
 
 ```
 Computer will turn off in 20 minutes
@@ -45,3 +45,12 @@ To get my son to the dinner table. He will hate this.
 Concourse job running on a Kubernetes in the Cloud, that uses Tailscale to be able to SSh to my Mac.
 
 I can use Tailscale on my phone to access the Concourse UI and easily trigger the job while I'm in the kitchen preparing dinner.
+
+```bash
+# install
+go install github.com/continusec/timedcomputershutdown/bin/timedcomputershutdown
+
+# change owner to root, and set uid so that it can shutdown
+sudo chown root $HOME/go/bin/timedcomputershutdown
+sudo chmod +s $HOME/go/bin/timedcomputershutdown
+```
