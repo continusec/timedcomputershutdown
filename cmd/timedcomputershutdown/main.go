@@ -69,6 +69,7 @@ func main() {
 				makeAnnouncement("Shutting down")
 				err := exec.Command("/sbin/shutdown", "-h", "now")
 				if err != nil {
+					log.Println(err)
 					makeAnnouncement("Error shutting down")
 					os.Exit(1)
 				}
