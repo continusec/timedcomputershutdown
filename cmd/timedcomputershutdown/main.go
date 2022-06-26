@@ -68,7 +68,7 @@ func main() {
 			ttl := shutdownTime.Sub(t)
 			if ttl <= 0 {
 				makeAnnouncement("Shutting down")
-				err := exec.Command(path.Join(path.Dir(os.Args[0])), "shutdownnow").Run()
+				err := exec.Command(path.Join(path.Dir(os.Args[0]), "shutdownnow")).Run()
 				if err != nil {
 					log.Println(err)
 					makeAnnouncement("Error shutting down")
